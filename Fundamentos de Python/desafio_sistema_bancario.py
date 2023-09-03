@@ -26,10 +26,12 @@
 # exemplo 1500,45 = R$ 1500,45
 
 import time
+import os
 
 saldo = 0
-limite = 500
-extrato = ""
+LIMITE = 500
+limite_valor = 0
+extrato = ''
 numero_saques = 0
 LIMITE_SAQUE = 3
 
@@ -45,35 +47,53 @@ menu = """
     Seu dinheiro é o nosso negócio.
  """
 
-# funçao extrato
-def extrato():
-    print('extrato')
-
-# função deposito
-def deposito():
-    print('deposito')
-
 # função saque
 def saque():
     print('saque')
 
 while True: # seleção do menu em loop
 
-    op = int(input(menu)) #opção do usuário
+    op = int(input(menu)) # opção do usuário
 
     if op == 1: # opção 1 para extrato 
-        extrato() # chama a função extrato
+        print('\n =================== EXTRATO ==================== \n')
+        print('Não foram realizadas movimentações' if not extrato else extrato)
+        print(f'\n Saldo Atual R$ {saldo:.2f}\n')
+        print('====================================================')
+        input('\n\nAperte qualquer tecla para continuar...')
 
     elif op == 2: # opção 2 para deposito
-        deposito()# chama a função deposito
+            valor = float(input('informe o valor que deseja depositar: '))
+    
+            if valor > 0:
+                saldo += valor
+                extrato += f"Depósito R${valor:.2f}\n"
+                print('\nRealizando Operação \nAguarde...')
+            else:
+                ('\nValor inválido !')
 
     elif op == 3: # opção 3 para saque
-        saque()  # chama a função saque
+        if numero_saques < LIMITE_SAQUE:
+            if(limite_valor <= LIMITE):
+                valor = float(input('Informe o valor que deseja sacar: '))
+                if(valor <= saldo):
+                    numero_saques += 1
+                    limite_valor += valor
+                    saldo -= valor
+                    extrato += f'Saque de R$ {valor:.2f}\n'
+                    print('\nRealizando Operação \nAguarde...')
+                else:
+                    print('\nImpossível realizar saque, valor de saque menor que saldo Atual')
+            else:
+                print('\nValor da Saque excedido ')
+        else:
+            print('\nLimite de Saque por dia Alcançado !')
 
     elif op == 0: # opção 0 para sair do programa 
         break # encerra o loop e sai do programa
     
     else:
-        print('Opção inválida, Por Favor selecione uma da opção a baixo ! ')
+        print('\nOpção inválida, Por Favor selecione uma da opção a baixo ! ')
 
-    time.sleep(3)
+    time.sleep(3)# temporizado de 3 segundo
+    os.system('cls') # limpa a tela do usuário 
