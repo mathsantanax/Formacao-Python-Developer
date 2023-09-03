@@ -47,10 +47,6 @@ menu = """
     Seu dinheiro é o nosso negócio.
  """
 
-# função saque
-def saque():
-    print('saque')
-
 while True: # seleção do menu em loop
 
     op = int(input(menu)) # opção do usuário
